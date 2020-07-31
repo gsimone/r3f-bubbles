@@ -1,6 +1,8 @@
 import React, { Suspense, useRef} from 'react';
 import { Canvas, useFrame, useResource } from 'react-three-fiber'
-import {  Icosahedron, OrbitControls } from 'drei'
+import {  Box, Icosahedron, OrbitControls } from 'drei'
+
+import * as THREE from 'three'
 
 import mergeRefs from 'merge-refs'
 
@@ -17,32 +19,43 @@ function Instances({ material }) {
     [-11, -12, -23]
   ]
 
-  const elements = useRef([])
+  const main = useRef()
+  const smallerBalls = useRef([])
   function setRef(i, ref) {
-    console.log(ref)
-    elements.current[i] = ref
+    smallerBalls.current[i] = ref
   }
 
+  // smaller balls movement
   useFrame(({clock}) => {
 
-    elements.current.forEach((el, i) => {
+    smallerBalls.current.forEach((el, i) => {
 
-      let {x,y,z} = el.position
+      let { x, y, z } = el.position
 
-      y += 0.01
+      y += 0.02
 
       el.position.set(x, y, z)
+      el.rotation.x += 0.06
+      el.rotation.y += 0.06
+      el.rotation.z += 0.02
 
     })
 
   })
   
+  // main ball
+  useFrame(({clock,mouse}) => {
+
+    main.current.rotation.y = THREE.MathUtils.lerp(main.current.rotation.y, mouse.x * 3, 0.1)
+    main.current.rotation.x = THREE.MathUtils.lerp(main.current.rotation.x, mouse.y * 2, 0.1)
+
+  })
 
   return <group >
-    <Elly material={material} position={[0,0,0]} />
+    <Elly material={material} ref={main} position={[0,0,0]} />
 
     {iPos.map((pos, i) => (
-      <Elly position={[pos[0], pos[1] - 10, pos[2]]} material={material} key={i} ref={ref => setRef(i, ref)} />
+      <Elly position={[pos[0], pos[1], pos[2]]} material={material} key={i} ref={ref => setRef(i, ref)} />
     ))}
 
   </group>
@@ -53,12 +66,8 @@ const Elly = React.forwardRef(function Elly(props, ref) {
 
   const me = useRef()
 
-  useFrame(({clock, mouse}) => {
-    me.current.rotation.y = clock.getElapsedTime() / 2
-  })
-
   return (
-    <Icosahedron ref={mergeRefs(me, ref)} args={[1,4]} {...props} />
+    <Icosahedron scale={[1, 1.1, 0.9]} ref={mergeRefs(me, ref)} args={[1,4]} {...props} />
   )
 
 })

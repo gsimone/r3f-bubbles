@@ -15,12 +15,12 @@ const Material = React.forwardRef(function Material(props, forwardedRef) {
     const matRef = useRef()
 
    const settings = useGui({
-       "size": [100, 0, 1000],
-       "speed": [1, 0, 4],
+       "size": [377, 0, 1000],
+       "speed": [0.3, 0, 4],
        "noiseType": ["simplex2", { simplex: "simplex2", perlin: "perlin2" }]
     })
 
-    const displacementScale = useGuiState('displacementScale', 0.5, 0, 1)
+    const displacementScale = useGuiState('displacementScale', 0.1, 0, 1)
     const displacementBias = useGuiState('displacementBias', 0.1 ,0, 1.0)
 
     // initialize canvas and an array for image data
@@ -47,7 +47,7 @@ const Material = React.forwardRef(function Material(props, forwardedRef) {
             const row = Math.floor(index / canvas.width)
             const col = index % canvas.width
         
-            const value = noise[settings.current.noiseType](offset + row/ size,  col/ size);
+            const value = noise[settings.current.noiseType](offset + row/ size, offset + col/ size);
         
             var color = Math.abs(value) * 256;
         
