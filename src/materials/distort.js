@@ -35,7 +35,6 @@ function DistortMaterial(parameters) {
       `
         float updateTime = time / 50.0;
         float noise = snoise(vec3(position / 2.0 + updateTime * 5.0));
-        vColor = hsv2rgb(vec3(noise * distort * 0.3 + updateTime, 0.2, 1.0));
 
         vec3 transformed = vec3(position * (noise * pow(distort, 2.0) + radius));
 
