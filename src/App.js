@@ -1,17 +1,17 @@
 import * as THREE from 'three'
 import React, { Suspense, useRef } from 'react'
 import { Canvas, useFrame, useResource } from 'react-three-fiber'
-import { Icosahedron, OrbitControls } from 'drei'
+import { Icosahedron } from 'drei'
 import mergeRefs from 'merge-refs'
+import { Controls, useControl } from 'react-three-gui'
 import Effects from './Effects'
 import ShaderMaterial from './ShaderMaterial'
-import GuiContext from './GuiContext'
 
 function MainBall({ material }) {
   const main = useRef()
 
   // main ball
-  useFrame(({clock,mouse}) => {
+  useFrame(({ clock, mouse }) => {
     main.current.rotation.z = clock.getElapsedTime()
     main.current.rotation.y = THREE.MathUtils.lerp(main.current.rotation.y, mouse.x * 3, 0.1)
     main.current.rotation.x = THREE.MathUtils.lerp(main.current.rotation.x, mouse.y * 2, 0.1)
@@ -85,15 +85,14 @@ function App() {
         concurrent
         camera={{ position: [0, 0, 3] }}
         onCreated={({ gl }) => gl.setClearColor('#040404')}>
-        <GuiContext>
-          <fog color="#222" attach="fog" near={8} far={30} />
-          <ambientLight intensity={1} />
-          <hemisphereLight args={[0xffffff, 0x666666, 1]} />
-          <Suspense fallback={null}>
-            <Scene />
-          </Suspense>
-        </GuiContext>
+        <fog color="#222" attach="fog" near={8} far={30} />
+        <ambientLight intensity={1} />
+        <hemisphereLight args={[0xffffff, 0x666666, 1]} />
+        <Suspense fallback={null}>
+          <Scene />
+        </Suspense>
       </Canvas>
+      <Controls />
     </>
   )
 }

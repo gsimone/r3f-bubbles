@@ -20,8 +20,6 @@ export default class DistortMaterial extends MeshPhysicalMaterial {
       uniform float time;
       uniform float radius;
       uniform float distort;
-      uniform float factor;
-      varying vec3 vColor;
       ${distort}
       ${shader.vertexShader}
     `
@@ -32,7 +30,7 @@ export default class DistortMaterial extends MeshPhysicalMaterial {
         float noise = snoise(vec3(position / 2.0 + updateTime * 5.0));
         vec3 transformed = vec3(position * (noise * pow(distort, 2.0) + radius));
         gl_Position = vec4(position * 5.0, 1.0);
-        `,
+        `
     )
   }
 

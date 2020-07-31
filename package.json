@@ -9,7 +9,6 @@
     "@testing-library/react": "^10.4.7",
     "@testing-library/user-event": "^12.1.0",
     "craco-raw-loader": "^1.0.1",
-    "dat.gui": "^0.7.7",
     "drei": "^0.0.67",
     "git": "^0.1.5",
     "glsl-noise": "^0.0.0",
@@ -19,13 +18,32 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
     "react-three-fiber": "^4.2.18",
+    "react-three-gui": "^0.1.5",
     "three": "^0.119.1"
+  },
+  "devDependencies": {
+    "husky": "^4.2.5",
+    "prettier": "^2.0.5",
+    "pretty-quick": "^2.0.1"
   },
   "scripts": {
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
     "eject": "craco eject"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged --pattern \"**/*.*(js)\""
+    }
+  },
+  "prettier": {
+    "semi": false,
+    "trailingComma": "es5",
+    "singleQuote": true,
+    "jsxBracketSameLine": true,
+    "tabWidth": 2,
+    "printWidth": 120
   },
   "eslintConfig": {
     "extends": "react-app"
