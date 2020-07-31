@@ -16,7 +16,14 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
 
     const roughness = useGuiState('roughness', 0, 0, 1)
     const metalness = useGuiState('metalness', 1, 0, 1)
+
+    const reflectivity = useGuiState('reflectivity', 0, 0, 1)
+    const clearcoat = useGuiState('clearcoat', 1, 0, 1)
+    const clearcoatRoughness = useGuiState('clearcoatRoughness', 1, 0, 1)
+    
     const bumpScale = useGuiState('bumpScale', 0.001, 0.001, 0.01)
+    
+    
     const color = useGuiState.color('color', "#010101")
 
     const settings = useGui({
@@ -59,6 +66,9 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
           metalness={metalness} 
           bumpMap={bumpMap} 
           bumpScale={bumpScale}
+          reflectivity={reflectivity}
+          clearcoat={clearcoat}
+          clearcoatRoughness={clearcoatRoughness}
         />
     )
 
