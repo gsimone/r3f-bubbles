@@ -92,7 +92,6 @@ function App() {
           <Suspense fallback={null}>
             <Scene />
           </Suspense>
-          <OrbitControls />
         </GuiContext>
       </Canvas>
     </>

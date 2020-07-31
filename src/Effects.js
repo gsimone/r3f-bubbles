@@ -15,7 +15,6 @@ import {
   VignetteEffect,
   NoiseEffect,
   DepthOfFieldEffect,
-  ChromaticAberrationEffect,
 } from 'postprocessing'
 
 export default function Effects({
@@ -69,8 +68,6 @@ export default function Effects({
     })
 
     const noiseEffect = new NoiseEffect({ blendFunction: BlendFunction.COLOR_DODGE })
-
-    const chromaticAberrationEffect = new ChromaticAberrationEffect()
 
     noiseEffect.blendMode.opacity.value = 0.02
 
