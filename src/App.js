@@ -22,25 +22,29 @@ function MainBall({ material }) {
 }
 
 function Instances({ material }) {
-  const smallerBalls = useRef([])
-  const iPos = [
+  // we use this array to initialize the background spheres
+  const initialPositions = [
     [-4, 20, -12],
     [-10, 12, -8],
     [-11, -12, -23],
     [-16, -6, -10],
     [12, -2, -6],
-    [13, -2, -12],
+    [13, 4, -12],
     [14, -2, -23],
-    [8, -10, -20],
+    [8, 10, -20],
   ]
 
+  // we use this array ref to store the spheres after creating them
+  const smallerBalls = useRef([])
+
   // smaller balls movement
-  useFrame(({ clock }) => {
+  useFrame(() => {
+    // animate each sphere in the array
     smallerBalls.current.forEach((el, i) => {
-      let { x, y, z } = el.position
+      let { y } = el.position
       y += 0.02
       if (y > 19) y = -18
-      el.position.set(x, y, z)
+      el.position.y = y
       el.rotation.x += 0.06
       el.rotation.y += 0.06
       el.rotation.z += 0.02
@@ -50,7 +54,7 @@ function Instances({ material }) {
   return (
     <group>
       <MainBall material={material}></MainBall>
-      {iPos.map((pos, i) => (
+      {initialPositions.map((pos, i) => (
         <Sphere
           position={[pos[0], pos[1], pos[2]]}
           material={material}
