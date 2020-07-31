@@ -23,8 +23,6 @@ export function useGui(stuff) {
         return acc
     }, {}))
 
-    console.log(data)
-
     React.useEffect(( )=> {
 
         Object.entries(stuff)
