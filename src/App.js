@@ -88,8 +88,8 @@ function App() {
         colorManagement
         concurrent
         camera={{ position: [0, 0, 3] }}
-        onCreated={({ gl }) => gl.setClearColor('#040404')}>
-        <fog color="#222" attach="fog" near={8} far={30} />
+        onCreated={({ gl }) => gl.setClearColor('#020202', 1)}>
+        <fog color="#161616" attach="fog" near={8} far={30} />
         <ambientLight intensity={1} />
 
         <Suspense fallback={null}>
