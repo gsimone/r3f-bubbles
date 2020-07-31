@@ -16,6 +16,7 @@ import {
   NoiseEffect,
   DepthOfFieldEffect,
 } from 'postprocessing'
+import { useControl } from 'react-three-gui'
 
 export default function Effects({
   smaa = true,
@@ -27,6 +28,20 @@ export default function Effects({
 }) {
   const { gl, scene, camera, size } = useThree()
   const smaaProps = useLoader(SMAAImageLoader, '')
+
+  const luminanceThreshold = useControl('luminance Threshold', {
+    group: 'Effects / blur',
+    type: 'number',
+    value: 0.6,
+    max: 1,
+  })
+  const luminanceSmoothing = useControl('luminance Smoothing', {
+    group: 'Effects / blur',
+    type: 'number',
+    value: 0.9,
+    max: 1,
+  })
+
   const composer = useMemo(() => {
     const composer = new EffectComposer(gl, { frameBufferType: HalfFloatType })
     composer.addPass(new RenderPass(scene, camera))
@@ -61,8 +76,8 @@ export default function Effects({
     const bloomEffect = new BloomEffect({
       blendFunction: BlendFunction.SCREEN,
       kernelSize: KernelSize.VERY_LARGE,
-      luminanceThreshold: 0.1,
-      luminanceSmoothing: 0.2,
+      luminanceThreshold,
+      luminanceSmoothing,
       height: 200,
       ...bloom,
     })
@@ -82,14 +97,14 @@ export default function Effects({
       depthOfFieldEffect,
       bloomEffect,
       noiseEffect,
-      vignetteEffect,
+      vignetteEffect
     )
     effectPass.renderToScreen = true
     composer.addPass(normalPass)
     composer.addPass(effectPass)
-    
+
     return composer
-  }, [gl, scene, camera, smaaProps, edgeDetection, ao, bloom, bloomOpacity])
+  }, [gl, scene, camera, smaaProps, edgeDetection, ao, luminanceThreshold, luminanceSmoothing, bloom, bloomOpacity])
 
   useEffect(() => void composer.setSize(size.width, size.height), [composer, size])
 
