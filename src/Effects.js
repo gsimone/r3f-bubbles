@@ -15,7 +15,6 @@ import {
   VignetteEffect,
   NoiseEffect,
   DepthOfFieldEffect,
-  ChromaticAberrationEffect,
 } from "postprocessing";
 
 export default function Effects({
