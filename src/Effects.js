@@ -1,6 +1,6 @@
-import { useMemo, useEffect } from "react";
-import { HalfFloatType } from "three";
-import { useLoader, useThree, useFrame } from "react-three-fiber";
+import { useMemo, useEffect } from 'react'
+import { HalfFloatType } from 'three'
+import { useLoader, useThree, useFrame } from 'react-three-fiber'
 import {
   SMAAImageLoader,
   BlendFunction,
@@ -16,7 +16,7 @@ import {
   NoiseEffect,
   DepthOfFieldEffect,
   ChromaticAberrationEffect,
-} from "postprocessing";
+} from 'postprocessing'
 
 export default function Effects({
   smaa = true,
@@ -26,17 +26,16 @@ export default function Effects({
   bloomOpacity = 1,
   effects,
 }) {
-  const { gl, scene, camera, size } = useThree();
-  const smaaProps = useLoader(SMAAImageLoader, "");
+  const { gl, scene, camera, size } = useThree()
+  const smaaProps = useLoader(SMAAImageLoader, '')
   const composer = useMemo(() => {
+    const composer = new EffectComposer(gl, { frameBufferType: HalfFloatType })
+    composer.addPass(new RenderPass(scene, camera))
 
-    const composer = new EffectComposer(gl, { frameBufferType: HalfFloatType });
-    composer.addPass(new RenderPass(scene, camera));
-    
-    const smaaEffect = new SMAAEffect(...smaaProps);
-    smaaEffect.colorEdgesMaterial.setEdgeDetectionThreshold(edgeDetection);
-    
-    const normalPass = new NormalPass(scene, camera);
+    const smaaEffect = new SMAAEffect(...smaaProps)
+    smaaEffect.colorEdgesMaterial.setEdgeDetectionThreshold(edgeDetection)
+
+    const normalPass = new NormalPass(scene, camera)
 
     const ssaoEffect = new SSAOEffect(camera, normalPass.renderTarget.texture, {
       blendFunction: BlendFunction.MULTIPLY,
@@ -51,66 +50,51 @@ export default function Effects({
       scale: 1.0,
       bias: 0.05,
       ...ao,
-    });
+    })
 
     const depthOfFieldEffect = new DepthOfFieldEffect(camera, {
-			focusDistance: 0,
-			focalLength: 0.02,
-			bokehScale: 2.0,
-			height: 480
-		});
+      focusDistance: 0,
+      focalLength: 0.02,
+      bokehScale: 2.0,
+      height: 480,
+    })
 
     const bloomEffect = new BloomEffect({
       blendFunction: BlendFunction.SCREEN,
       kernelSize: KernelSize.VERY_LARGE,
-      luminanceThreshold: .1,
+      luminanceThreshold: 0.1,
       luminanceSmoothing: 0.2,
       height: 200,
       ...bloom,
-    });
-
-    const noiseEffect = new NoiseEffect({
-      blendFunction: BlendFunction.COLOR_DODGE
     })
+
+    const noiseEffect = new NoiseEffect({ blendFunction: BlendFunction.COLOR_DODGE })
 
     const chromaticAberrationEffect = new ChromaticAberrationEffect()
 
-    noiseEffect.blendMode.opacity.value = 0.02;
+    noiseEffect.blendMode.opacity.value = 0.02
 
-    const vignetteEffect = new VignetteEffect({
-      eskil: false,
-			offset: 0.1,
-			darkness: 1.1
-    })
-    
-    bloomEffect.blendMode.opacity.value = bloomOpacity;
-    let effectsArray = [];
+    const vignetteEffect = new VignetteEffect({ eskil: false, offset: 0.1, darkness: 1.1 })
 
+    bloomEffect.blendMode.opacity.value = bloomOpacity
 
-    effectsArray.push(smaaEffect);
-    effectsArray.push(ssaoEffect);
+    const effectPass = new EffectPass(
+      camera,
+      smaaEffect,
+      ssaoEffect,
+      depthOfFieldEffect,
+      bloomEffect,
+      noiseEffect,
+      vignetteEffect,
+    )
+    effectPass.renderToScreen = true
+    composer.addPass(normalPass)
+    composer.addPass(effectPass)
     
-    effectsArray.push(depthOfFieldEffect)
-    
-    effectsArray.push(chromaticAberrationEffect)
-    
-    effectsArray.push(bloomEffect);
-    effectsArray.push(noiseEffect)
-    
-    effectsArray.push(vignetteEffect)
-    
+    return composer
+  }, [gl, scene, camera, smaaProps, edgeDetection, ao, bloom, bloomOpacity])
 
-    const effectPass = new EffectPass(camera, ...effectsArray);
-    effectPass.renderToScreen = true;
-    composer.addPass(normalPass);
-    composer.addPass(effectPass);
-    return composer;
-  }, [gl, scene, camera, smaaProps, edgeDetection, ao, bloom, bloomOpacity]);
+  useEffect(() => void composer.setSize(size.width, size.height), [composer, size])
 
-  useEffect(() => void composer.setSize(size.width, size.height), [
-    composer,
-    size,
-  ]);
-
-  return useFrame((_, delta) => composer.render(delta), 1);
+  return useFrame((_, delta) => composer.render(delta), 1)
 }
