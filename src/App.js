@@ -11,7 +11,7 @@ import Effects from './Effects'
 function MainBall({ material }) {
   const main = useRef()
 
-  // main ball
+  // main sphere rotates following the mouse position
   useFrame(({ clock, mouse }) => {
     main.current.rotation.z = clock.getElapsedTime()
     main.current.rotation.y = THREE.MathUtils.lerp(main.current.rotation.y, mouse.x * 3, 0.1)
@@ -67,12 +67,16 @@ function Instances({ material }) {
 }
 
 function Scene() {
+  // We use `useResource` to be able to delay rendering the spheres until the material is ready
   const [matRef, material] = useResource()
   return (
     <>
       <ShaderMaterial ref={matRef} />
-      <Effects edgeDetection={0.4} />
+
+      {/* All the spheres are only rendered once the material is ready */}
       {material && <Instances material={material} />}
+
+      <Effects />
     </>
   )
 }
