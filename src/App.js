@@ -1,11 +1,12 @@
 import * as THREE from 'three'
 import React, { Suspense, useRef } from 'react'
 import { Canvas, useFrame, useResource } from 'react-three-fiber'
-import { Icosahedron } from 'drei'
-import mergeRefs from 'merge-refs'
-import { Controls, useControl } from 'react-three-gui'
-import Effects from './Effects'
+import { Controls } from 'react-three-gui'
+
+import Sphere from './Sphere'
 import ShaderMaterial from './ShaderMaterial'
+
+import Effects from './Effects'
 
 function MainBall({ material }) {
   const main = useRef()
@@ -17,7 +18,7 @@ function MainBall({ material }) {
     main.current.rotation.x = THREE.MathUtils.lerp(main.current.rotation.x, mouse.y * 2, 0.1)
   })
 
-  return <Elly material={material} ref={main} position={[0, 0, 0]} />
+  return <Sphere material={material} ref={main} position={[0, 0, 0]} />
 }
 
 function Instances({ material }) {
@@ -50,7 +51,7 @@ function Instances({ material }) {
     <group>
       <MainBall material={material}></MainBall>
       {iPos.map((pos, i) => (
-        <Elly
+        <Sphere
           position={[pos[0], pos[1], pos[2]]}
           material={material}
           key={i}
@@ -60,11 +61,6 @@ function Instances({ material }) {
     </group>
   )
 }
-
-const Elly = React.forwardRef(function Elly(props, ref) {
-  const me = useRef()
-  return <Icosahedron ref={mergeRefs(me, ref)} args={[1, 4]} {...props} />
-})
 
 function Scene() {
   const [matRef, material] = useResource()
@@ -87,7 +83,7 @@ function App() {
         onCreated={({ gl }) => gl.setClearColor('#040404')}>
         <fog color="#222" attach="fog" near={8} far={30} />
         <ambientLight intensity={1} />
-        <hemisphereLight args={[0xffffff, 0x666666, 1]} />
+
         <Suspense fallback={null}>
           <Scene />
         </Suspense>
