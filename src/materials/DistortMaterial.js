@@ -30,11 +30,6 @@ export default class DistortMaterial extends MeshPhysicalMaterial {
       `
         float updateTime = time / 50.0;
         float noise = snoise(vec3(position / 2.0 + updateTime * 5.0));
-<<<<<<< HEAD:src/materials/DistortMaterial.js
-        vColor = hsv2rgb(vec3(noise * distort * 0.3 + updateTime, 0.2, 1.0));
-=======
-
->>>>>>> 7dc3475c1a8ae7e1449d7337c63859b549c708e5:src/materials/distort.js
         vec3 transformed = vec3(position * (noise * pow(distort, 2.0) + radius));
         gl_Position = vec4(position * 5.0, 1.0);
         `,
