@@ -32,3 +32,12 @@ body {
   right: 0;
   bottom: 0;
 }
+
+.three-gui-container {
+  opacity: 0.06;
+  transition: all .3s ease;
+}
+
+.three-gui-container:hover {
+  opacity: 1;
+}

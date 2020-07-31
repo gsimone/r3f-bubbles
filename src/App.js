@@ -92,7 +92,9 @@ function App() {
           <Scene />
         </Suspense>
       </Canvas>
-      <Controls />
+      <div className="three-gui-container">
+        <Controls />
+      </div>
     </>
   )
 }
