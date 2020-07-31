@@ -94,7 +94,9 @@ function App() {
         </Suspense>
         <OrbitControls />
       </Canvas>
-      <Controls />
+      <div className="three-gui-container">
+        <Controls />
+      </div>
     </>
   )
 }
