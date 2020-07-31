@@ -3,6 +3,7 @@ import mergeRefs from 'merge-refs'
 
 import * as THREE from 'three'
 import { extend, useFrame } from 'react-three-fiber'
+import { useTextureLoader } from 'drei'
 
 import DistortMaterial from './materials/distort'
 
@@ -12,11 +13,9 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
 
     const matRef = useRef()
 
-    useFrame(({ clock }) => {
-        matRef.current.uniforms.time.value += 1
-        matRef.current.uniforms.radius.value = 1
-        matRef.current.uniforms.distort.value = 0.4
-    })
+    useFrame((state) => matRef.current && (matRef.current.time = state.clock.getElapsedTime()))
+
+    const bumpMap = useTextureLoader('./bump.jpg')
 
     React.useEffect(() => {
  
@@ -36,7 +35,7 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
       }, [])
 
     return (
-        <distortMaterial ref={mergeRefs(forwardedRef, matRef)} />
+        <distortMaterial ref={mergeRefs(forwardedRef, matRef)} color="#010101" roughness={0} metalness={1} bumpMap={bumpMap} bumpScale={0.001} />
     )
 
 })

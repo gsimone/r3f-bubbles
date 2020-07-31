@@ -15,6 +15,7 @@ import {
   VignetteEffect,
   NoiseEffect,
   DepthOfFieldEffect,
+  ChromaticAberrationEffect,
 } from "postprocessing";
 
 export default function Effects({
@@ -92,7 +93,6 @@ export default function Effects({
     // effectsArray.push(godRaysEffect)
     
     effectsArray.push(bloomEffect);
-
     effectsArray.push(noiseEffect)
     
     effectsArray.push(vignetteEffect)
