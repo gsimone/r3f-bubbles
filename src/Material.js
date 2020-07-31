@@ -1,23 +1,32 @@
 import React, {useRef} from 'react'
-import ReactDOM from 'react-dom'
 import { useFrame } from 'react-three-fiber'
-import { useTextureLoader, Html } from 'drei'
+import { useTextureLoader } from 'drei'
 
 import * as THREE from 'three'
 
 import mergeRefs from 'merge-refs'
+import {noise} from './noise'
 
-import { makeNoise } from './lib'
+import {useGui, useGuiState} from './GuiContext'
+
 
 const Material = React.forwardRef(function Material(props, forwardedRef) {
 
     const matRef = useRef()
 
+   const settings = useGui({
+       "size": [100, 0, 1000],
+       "speed": [1, 0, 4],
+       "noiseType": ["simplex2", { simplex: "simplex2", perlin: "perlin2" }]
+    })
+
+    const displacementScale = useGuiState('displacementScale', 0.5, 0, 1)
+    const displacementBias = useGuiState('displacementBias', 0.1 ,0, 1.0)
+
     // initialize canvas and an array for image data
-    const {arr, canvas,context} = React.useMemo(() => {
+    const { arr, canvas,context } = React.useMemo(() => {
         const canvas = document.createElement('canvas')
-        canvas.width = 64
-        canvas.height = 64
+        canvas.height = canvas.width = 512
         const context = canvas.getContext('2d')
 
         const arr = new Uint8ClampedArray(canvas.width * canvas.height * 4);
@@ -26,11 +35,29 @@ const Material = React.forwardRef(function Material(props, forwardedRef) {
     }, [])
 
     useFrame(({clock, mouse}) => {
-        const F = Math.abs(mouse.x) + 0.5 * 100
-        const offset = clock.getElapsedTime() / 2
+        const {size, speed} = settings.current
+        
+        const offset = clock.getElapsedTime() / (1/speed)
         
         // generate noise to canvas
-        makeNoise({canvas, context, F, offset, arr})
+        // Iterate through every pixel
+        for (let i = 0; i < arr.length; i += 4) {
+            const index = i/4
+        
+            const row = Math.floor(index / canvas.width)
+            const col = index % canvas.width
+        
+            const value = noise[settings.current.noiseType](offset + row/ size,  col/ size);
+        
+            var color = Math.abs(value) * 256;
+        
+            arr[i] = color 
+            arr[i + 3] = 255 
+        }
+        
+        let imageData = new ImageData(arr, canvas.width);
+        
+        context.putImageData(imageData, 0, 0)
 
         // assign canvas to displacementMap image
         displacementMap.current.image = canvas
@@ -76,7 +103,8 @@ const Material = React.forwardRef(function Material(props, forwardedRef) {
                 bumpMap={bumpMap} 
                 bumpScale={0.001}
 
-                displacementScale={0.3}
+                displacementScale={displacementScale}
+                displacementBias={displacementBias}
             >
             <canvasTexture 
                 ref={displacementMap}

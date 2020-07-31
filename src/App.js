@@ -2,14 +2,11 @@ import React, { Suspense, useRef} from 'react';
 import { Canvas, useFrame, useResource } from 'react-three-fiber'
 import {  Icosahedron, OrbitControls } from 'drei'
 
-import * as THREE from 'three'
-
 import mergeRefs from 'merge-refs'
 
 import Effects from './Effects'
 import Material from './Material'
-
-const dummy = new THREE.Object3D()
+import GuiContext from './GuiContext';
 
 function Instances({ material }) {
 
@@ -111,6 +108,7 @@ function App() {
           gl.setClearColor('#040404')
         }}
     > 
+      <GuiContext>
       <fog color="#222" attach="fog" near={8} far={30} />
       
       <ambientLight intensity={1} />
@@ -120,6 +118,8 @@ function App() {
       </Suspense>
 
       <OrbitControls />
+      </GuiContext>
+      
     </Canvas>
     
     </>

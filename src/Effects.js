@@ -12,11 +12,9 @@ import {
   SMAAEffect,
   SSAOEffect,
   NormalPass,
-  BlurPass,
   VignetteEffect,
   NoiseEffect,
   DepthOfFieldEffect,
-  GodRaysEffect,
 } from "postprocessing";
 
 export default function Effects({
