@@ -20,8 +20,6 @@ export default class DistortMaterial extends MeshPhysicalMaterial {
       uniform float time;
       uniform float radius;
       uniform float distort;
-      uniform float factor;
-      varying vec3 vColor;
       ${distort}
       ${shader.vertexShader}
     `
