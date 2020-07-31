@@ -1,13 +1,13 @@
 import React, { Suspense, useRef} from 'react';
 import { Canvas, useFrame, useResource } from 'react-three-fiber'
-import {  Box, Icosahedron, OrbitControls } from 'drei'
+import { Icosahedron, OrbitControls } from 'drei'
 
 import * as THREE from 'three'
 
 import mergeRefs from 'merge-refs'
 
 import Effects from './Effects'
-import Material from './Material'
+import Material from './ShaderMaterial'
 import GuiContext from './GuiContext';
 
 function MainBall({material}) {
@@ -39,7 +39,7 @@ function Instances({ material }) {
   }
 
   // smaller balls movement
-  useFrame(() => {
+  useFrame(({clock}) => {
 
     smallerBalls.current.forEach((el, i) => {
 
@@ -58,7 +58,7 @@ function Instances({ material }) {
   
   
   return <group >
-    <MainBall material={material} />
+    <MainBall material={material}></MainBall>
     {iPos.map((pos, i) => (
       <Elly position={[pos[0], pos[1], pos[2]]} material={material} key={i} ref={ref => setRef(i, ref)} />
     ))}
@@ -71,7 +71,7 @@ const Elly = React.forwardRef(function Elly(props, ref) {
   const me = useRef()
 
   return (
-    <Icosahedron scale={[1, 1.1, 0.9]} ref={mergeRefs(me, ref)} args={[1,4]} {...props} />
+    <Icosahedron ref={mergeRefs(me, ref)} args={[1,4]} {...props} />
   )
 
 })
@@ -89,6 +89,7 @@ function Scene() {
 
       {/* queste sono le sfere originali, commentate */}
       {material && <Instances material={material} />}
+
 
       {/* <Text 
         fontSize={0.75} 
@@ -125,6 +126,8 @@ function App() {
       <fog color="#222" attach="fog" near={8} far={30} />
       
       <ambientLight intensity={1} />
+
+      <hemisphereLight args={[0xffffff, 0x666666, 1]} />
 
       <Suspense fallback={null}>
         <Scene />
