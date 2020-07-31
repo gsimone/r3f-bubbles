@@ -11,7 +11,13 @@ function MainBall({ material }) {
   const main = useRef()
 
   // main ball
+<<<<<<< HEAD
   useFrame(({ clock, mouse }) => {
+=======
+  useFrame(({clock,mouse}) => {
+    main.current.rotation.z = clock.getElapsedTime()
+    
+>>>>>>> 7dc3475c1a8ae7e1449d7337c63859b549c708e5
     main.current.rotation.y = THREE.MathUtils.lerp(main.current.rotation.y, mouse.x * 3, 0.1)
     main.current.rotation.x = THREE.MathUtils.lerp(main.current.rotation.x, mouse.y * 2, 0.1)
   })
@@ -22,10 +28,14 @@ function MainBall({ material }) {
 function Instances({ material }) {
   const smallerBalls = useRef([])
   const iPos = [
-    [-10, 5, -10],
-    [13, -2, -12],
-    [8, -10, -20],
+    [-4, 20, -12],
+    [-10, 12, -8],
     [-11, -12, -23],
+    [-16, -6, -10],
+    [12, -2, -6],
+    [13, -2, -12],
+    [14, -2, -23],
+    [8, -10, -20],
   ]
 
   // smaller balls movement
@@ -33,6 +43,7 @@ function Instances({ material }) {
     smallerBalls.current.forEach((el, i) => {
       let { x, y, z } = el.position
       y += 0.02
+      if (y > 19) y = -18
       el.position.set(x, y, z)
       el.rotation.x += 0.06
       el.rotation.y += 0.06
@@ -64,8 +75,16 @@ function Scene() {
   const [matRef, material] = useResource()
   return (
     <>
+<<<<<<< HEAD
       <ShaderMaterial ref={matRef} />
       <Effects edgeDetection={0.4} />
+=======
+      <Material ref={matRef} />
+
+      <Effects />
+
+      {/* the spheres are not rendered unless the material is ready */}
+>>>>>>> 7dc3475c1a8ae7e1449d7337c63859b549c708e5
       {material && <Instances material={material} />}
     </>
   )
