@@ -2,25 +2,45 @@ import * as THREE from 'three'
 import React, { useRef, useEffect } from 'react'
 import mergeRefs from 'merge-refs'
 import { useLoader, useFrame } from 'react-three-fiber'
-import { useGui, useGuiState } from './GuiContext'
+import { useControl } from 'react-three-gui'
+
 import './materials/DistortMaterial'
+
+const MATERIAL_GROUP = 'Material'
+const SHADER_GROUP = 'Shader'
 
 const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwardedRef) {
   const matRef = useRef()
-  const roughness = useGuiState('roughness', 0, 0, 1)
-  const metalness = useGuiState('metalness', 1, 0, 1)
-  const reflectivity = useGuiState('reflectivity', 0, 0, 1)
-  const clearcoat = useGuiState('clearcoat', 1, 0, 1)
-  const clearcoatRoughness = useGuiState('clearcoatRoughness', 1, 0, 1)
-  const bumpScale = useGuiState('bumpScale', 0.001, 0.001, 0.01)
-  const color = useGuiState.color('color', '#010101')
-  const settings = useGui({ radius: [1, 0, 1], distort: [0.4, 0, 1] })
+
+  // material settings
+  const color = useControl('color', { group: MATERIAL_GROUP, type: 'color', value: '#010101' })
+  const roughness = useControl('roughness', { group: MATERIAL_GROUP, type: 'number', value: 0.1, max: 1 })
+  const metalness = useControl('metalness', { group: MATERIAL_GROUP, type: 'number', value: 1, max: 1 })
+  const reflectivity = useControl('reflectivity', { group: MATERIAL_GROUP, type: 'number' })
+  const clearcoat = useControl('clearcoat', { group: MATERIAL_GROUP, type: 'number', value: 1, max: 1 })
+  const clearcoatRoughness = useControl('clearcoat roughness', {
+    group: MATERIAL_GROUP,
+    type: 'number',
+    value: 1,
+    max: 1,
+  })
+  const bumpScale = useControl('bump scale', {
+    group: MATERIAL_GROUP,
+    type: 'number',
+    value: 0.001,
+    step: 0.001,
+    max: 1,
+  })
+
+  // shader settings
+  const radius = useControl('radius', { group: SHADER_GROUP, type: 'number', value: 1, max: 1 })
+  const distort = useControl('distort', { group: SHADER_GROUP, type: 'number', value: 0.4, max: 1 })
 
   const bumpMap = useLoader(THREE.TextureLoader, './bump.jpg')
   const [envMap] = useLoader(
     THREE.CubeTextureLoader,
     [['1.jpg', '2.jpg', '6.jpg', '4.jpg', '5.jpg', '3.jpg']],
-    (loader) => loader.setPath('cube/'),
+    (loader) => loader.setPath('cube/')
   )
 
   useEffect(() => {
@@ -32,8 +52,8 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
 
   useFrame((state) => {
     matRef.current.time = state.clock.getElapsedTime()
-    matRef.current.radius = settings.current.radius
-    matRef.current.distort = settings.current.distort
+    matRef.current.radius = radius
+    matRef.current.distort = distort
   })
 
   return (

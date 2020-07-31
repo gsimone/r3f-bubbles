@@ -9,7 +9,6 @@
     "@testing-library/react": "^10.4.7",
     "@testing-library/user-event": "^12.1.0",
     "craco-raw-loader": "^1.0.1",
-    "dat.gui": "^0.7.7",
     "drei": "^0.0.67",
     "git": "^0.1.5",
     "glsl-noise": "^0.0.0",
@@ -19,6 +18,7 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
     "react-three-fiber": "^4.2.18",
+    "react-three-gui": "^0.1.5",
     "three": "^0.119.1"
   },
   "devDependencies": {
