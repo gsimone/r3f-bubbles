@@ -52,10 +52,6 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
     return hdrCubeRenderTarget.texture
   }, [envMapTexture, gl])
 
-  useEffect(() => {
-    matRef.current.envMap = envMap
-  }, [envMap])
-
   // For some reason the envmap looks different if applied later-on
   useEffect(() => void (matRef.current.envMap = envMap), [envMap])
 
