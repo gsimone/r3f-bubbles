@@ -60,4 +60,26 @@ export function useGuiState(key, init, ...args) {
     return state
 }
 
+useGuiState.color = function useGuiStateColor(key, init) {
+    const [state, setState] = React.useState(init)
+
+    const { gui } = useContext(guiContext)
+
+    const controller = useRef({})
+    React.useEffect(() => {
+
+        controller.current = gui.addColor({
+            [key]: init,
+        }, key)
+
+        controller.current.onChange(value => {
+            setState(value)
+        })
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    return state
+}
+
 export default GuiContext

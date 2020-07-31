@@ -6,6 +6,7 @@ import { extend, useFrame } from 'react-three-fiber'
 import { useTextureLoader } from 'drei'
 
 import DistortMaterial from './materials/distort'
+import { useGui, useGuiState } from './GuiContext'
 
 extend({ DistortMaterial })
 
@@ -13,7 +14,23 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
 
     const matRef = useRef()
 
-    useFrame((state) => matRef.current && (matRef.current.time = state.clock.getElapsedTime()))
+    const roughness = useGuiState('roughness', 0, 0, 1)
+    const metalness = useGuiState('metalness', 1, 0, 1)
+    const bumpScale = useGuiState('bumpScale', 0.001, 0.001, 0.01)
+    const color = useGuiState.color('color', "#010101")
+
+    const settings = useGui({
+      "radius": [1, 0, 1],
+      "distort": [0.4, 0, 1]
+   })
+
+    useFrame((state) => {
+      if (matRef.current) {
+        matRef.current.time = state.clock.getElapsedTime()
+        matRef.current.radius = settings.current.radius
+        matRef.current.distort = settings.current.distort
+      }
+    })
 
     const bumpMap = useTextureLoader('./bump.jpg')
 
@@ -35,7 +52,14 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
       }, [])
 
     return (
-        <distortMaterial ref={mergeRefs(forwardedRef, matRef)} color="#010101" roughness={0} metalness={1} bumpMap={bumpMap} bumpScale={0.001} />
+        <distortMaterial 
+          ref={mergeRefs(forwardedRef, matRef)} 
+          color={color}
+          roughness={roughness} 
+          metalness={metalness} 
+          bumpMap={bumpMap} 
+          bumpScale={bumpScale}
+        />
     )
 
 })
