@@ -5,6 +5,7 @@ import { useLoader, useFrame, useThree } from 'react-three-fiber'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
 import { useControl } from 'react-three-gui'
 import './materials/DistortMaterial'
+import { TextureLoader } from 'three'
 
 const MATERIAL_GROUP = 'Material'
 const SHADER_GROUP = 'Shader'
@@ -44,7 +45,7 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
   )*/
 
   const { gl } = useThree()
-  const data = useLoader(RGBELoader, '/studio_small_03_1k.hdr')
+  const data = useLoader(TextureLoader, '/_DHQ.jpg')
   const envMap = useMemo(() => {
     const gen = new THREE.PMREMGenerator(gl)
     gen.compileEquirectangularShader()
@@ -52,7 +53,7 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
     data.dispose()
     gen.dispose()
     return hdrCubeRenderTarget.texture
-  }, [data])
+  }, [data, gl])
 
   useEffect(() => {
     matRef.current.envMap = envMap
