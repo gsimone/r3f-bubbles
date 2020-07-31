@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 
-import vertexShader from '../glsl/dist-v.glsl'
-import fragmentShader from '../glsl/dist-f.glsl'
+import vertexShader from '../glsl/distort.vert'
+import fragmentShader from '../glsl/distort.frag'
 
 export default class DistortionMaterial extends THREE.ShaderMaterial {
     constructor() {
