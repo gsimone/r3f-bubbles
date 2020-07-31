@@ -30,9 +30,9 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
   const bumpScale = useControl('bump scale', {
     group: MATERIAL_GROUP,
     type: 'number',
-    value: 0.001,
-    step: 0.001,
-    max: 1,
+    value: 0.32,
+    step: 0.1,
+    max: 5,
   })
 
   // shader settings
@@ -68,7 +68,7 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
       roughness={roughness}
       metalness={metalness}
       bumpMap={bumpMap}
-      bumpScale={bumpScale}
+      bumpScale={bumpScale / 100}
       reflectivity={reflectivity}
       clearcoat={clearcoat}
       clearcoatRoughness={clearcoatRoughness}
