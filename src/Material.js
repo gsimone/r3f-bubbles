@@ -1,6 +1,7 @@
 import React, {useRef} from 'react'
+import ReactDOM from 'react-dom'
 import { useFrame } from 'react-three-fiber'
-import { useTextureLoader } from 'drei'
+import { useTextureLoader, Html } from 'drei'
 
 import * as THREE from 'three'
 
@@ -15,8 +16,8 @@ const Material = React.forwardRef(function Material(props, forwardedRef) {
     // initialize canvas and an array for image data
     const {arr, canvas,context} = React.useMemo(() => {
         const canvas = document.createElement('canvas')
-        canvas.width = 256
-        canvas.height = 256
+        canvas.width = 64
+        canvas.height = 64
         const context = canvas.getContext('2d')
 
         const arr = new Uint8ClampedArray(canvas.width * canvas.height * 4);
@@ -36,7 +37,9 @@ const Material = React.forwardRef(function Material(props, forwardedRef) {
 
         // update material
         matRef.current.displacementMap.needsUpdate = true
-
+        
+        document.querySelector('#material-test-canvas img')
+            .src = canvas.toDataURL('image/jpeg')
     })
     
     const bumpMap = useTextureLoader('./bump.jpg')
@@ -61,26 +64,28 @@ const Material = React.forwardRef(function Material(props, forwardedRef) {
    }, [])
     
     return (
-        <meshStandardMaterial 
-        color="#010101" 
-        
-        metalness={1} 
-        roughness={0.1}
-        
-        ref={mergeRefs(forwardedRef, matRef)} 
+        <>
+            <meshStandardMaterial 
+                color="#010101" 
+                
+                metalness={1} 
+                roughness={0.1}
+                
+                ref={mergeRefs(forwardedRef, matRef)} 
 
-        bumpMap={bumpMap} 
-        bumpScale={0.0004}
+                bumpMap={bumpMap} 
+                bumpScale={0.001}
 
-        displacementScale={0.1}
-      >
-        <canvasTexture 
-          ref={displacementMap}
-          attach="displacementMap"
-          wrapS={THREE.RepeatWrapping}
-          wrapT={THREE.RepeatWrapping}
-        />
-      </meshStandardMaterial>
+                displacementScale={0.3}
+            >
+            <canvasTexture 
+                ref={displacementMap}
+                attach="displacementMap"
+                wrapS={THREE.RepeatWrapping}
+                wrapT={THREE.RepeatWrapping}
+            />
+        </meshStandardMaterial>
+      </>
     )
 })
 

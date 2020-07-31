@@ -26,3 +26,9 @@ body {
 .scrolly {
   height: 300vh;
 }
+
+#material-test-canvas {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+}
