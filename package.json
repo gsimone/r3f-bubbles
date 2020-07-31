@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^12.0.15",
     "drei": "^0.0.66",
     "git": "^0.1.5",
+    "merge-refs": "^1.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
