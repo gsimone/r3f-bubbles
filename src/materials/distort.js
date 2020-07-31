@@ -2,7 +2,7 @@ import { MeshPhysicalMaterial } from 'three'
 
 import distort from '../glsl/distort.vert'
 
-function WobbleMaterialImpl(parameters) {
+function DistortMaterial(parameters) {
 
   MeshPhysicalMaterial.call(this)
   
@@ -59,8 +59,8 @@ function WobbleMaterialImpl(parameters) {
   })
 }
 
-WobbleMaterialImpl.prototype = Object.create(MeshPhysicalMaterial.prototype)
-WobbleMaterialImpl.prototype.constructor = MeshPhysicalMaterial
-WobbleMaterialImpl.prototype.isMeshPhysicalMaterial = true
+DistortMaterial.prototype = Object.create(MeshPhysicalMaterial.prototype)
+DistortMaterial.prototype.constructor = MeshPhysicalMaterial
+DistortMaterial.prototype.isMeshPhysicalMaterial = true
 
-export default WobbleMaterialImpl
+export default DistortMaterial
