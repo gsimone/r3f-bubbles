@@ -15,6 +15,8 @@ function MainBall({material}) {
 
   // main ball
   useFrame(({clock,mouse}) => {
+    main.current.rotation.z = clock.getElapsedTime()
+    
     main.current.rotation.y = THREE.MathUtils.lerp(main.current.rotation.y, mouse.x * 3, 0.1)
     main.current.rotation.x = THREE.MathUtils.lerp(main.current.rotation.x, mouse.y * 2, 0.1)
   })
@@ -27,10 +29,18 @@ function MainBall({material}) {
 function Instances({ material }) {
 
   const iPos = [
-    [-10, 5, -10],
+
+    [-4, 20, -12],
+    [-10, 12, -8],
+    
+    [-11, -12, -23],
+    [-16, -6, -10],
+    
+    
+    [12, -2, -6],
     [13, -2, -12],
+    [14, -2, -23],
     [8, -10, -20],
-    [-11, -12, -23]
   ]
 
   const smallerBalls = useRef([])
@@ -46,6 +56,10 @@ function Instances({ material }) {
       let { x, y, z } = el.position
 
       y += 0.02
+
+      if (y > 19) {
+        y = -18
+      }
 
       el.position.set(x, y, z)
       el.rotation.x += 0.06
@@ -85,20 +99,11 @@ function Scene() {
     <>
       <Material ref={matRef} />
 
-      <Effects edgeDetection={0.4}  />
+      <Effects />
 
-      {/* queste sono le sfere originali, commentate */}
+      {/* the spheres are not rendered unless the material is ready */}
       {material && <Instances material={material} />}
-
-
-      {/* <Text 
-        fontSize={0.75} 
-        position-z={2}
-        font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
-      >
-        drei
-      </Text> */}
-      </>
+    </>
   )
 }
 
