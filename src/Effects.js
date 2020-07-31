@@ -15,6 +15,7 @@ import {
   VignetteEffect,
   NoiseEffect,
   DepthOfFieldEffect,
+  ChromaticAberrationEffect,
 } from "postprocessing";
 
 export default function Effects({
@@ -72,6 +73,8 @@ export default function Effects({
       blendFunction: BlendFunction.COLOR_DODGE
     })
 
+    const chromaticAberrationEffect = new ChromaticAberrationEffect()
+
     noiseEffect.blendMode.opacity.value = 0.02;
 
     const vignetteEffect = new VignetteEffect({
@@ -89,7 +92,7 @@ export default function Effects({
     
     effectsArray.push(depthOfFieldEffect)
     
-    // effectsArray.push(godRaysEffect)
+    effectsArray.push(chromaticAberrationEffect)
     
     effectsArray.push(bloomEffect);
     effectsArray.push(noiseEffect)
