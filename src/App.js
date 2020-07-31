@@ -10,6 +10,20 @@ import Effects from './Effects'
 import Material from './Material'
 import GuiContext from './GuiContext';
 
+function MainBall({material}) {
+  const main = useRef()
+
+  // main ball
+  useFrame(({clock,mouse}) => {
+    main.current.rotation.y = THREE.MathUtils.lerp(main.current.rotation.y, mouse.x * 3, 0.1)
+    main.current.rotation.x = THREE.MathUtils.lerp(main.current.rotation.x, mouse.y * 2, 0.1)
+  })
+  
+  return (
+    <Elly material={material} ref={main} position={[0,0,0]} />
+  )
+}
+
 function Instances({ material }) {
 
   const iPos = [
@@ -19,14 +33,13 @@ function Instances({ material }) {
     [-11, -12, -23]
   ]
 
-  const main = useRef()
   const smallerBalls = useRef([])
   function setRef(i, ref) {
     smallerBalls.current[i] = ref
   }
 
   // smaller balls movement
-  useFrame(({clock}) => {
+  useFrame(() => {
 
     smallerBalls.current.forEach((el, i) => {
 
@@ -43,21 +56,12 @@ function Instances({ material }) {
 
   })
   
-  // main ball
-  useFrame(({clock,mouse}) => {
-
-    main.current.rotation.y = THREE.MathUtils.lerp(main.current.rotation.y, mouse.x * 3, 0.1)
-    main.current.rotation.x = THREE.MathUtils.lerp(main.current.rotation.x, mouse.y * 2, 0.1)
-
-  })
-
+  
   return <group >
-    <Elly material={material} ref={main} position={[0,0,0]} />
-
+    <MainBall material={material} />
     {iPos.map((pos, i) => (
       <Elly position={[pos[0], pos[1], pos[2]]} material={material} key={i} ref={ref => setRef(i, ref)} />
     ))}
-
   </group>
 
 }
