@@ -11,13 +11,8 @@ function MainBall({ material }) {
   const main = useRef()
 
   // main ball
-<<<<<<< HEAD
-  useFrame(({ clock, mouse }) => {
-=======
   useFrame(({clock,mouse}) => {
     main.current.rotation.z = clock.getElapsedTime()
-    
->>>>>>> 7dc3475c1a8ae7e1449d7337c63859b549c708e5
     main.current.rotation.y = THREE.MathUtils.lerp(main.current.rotation.y, mouse.x * 3, 0.1)
     main.current.rotation.x = THREE.MathUtils.lerp(main.current.rotation.x, mouse.y * 2, 0.1)
   })
@@ -75,16 +70,8 @@ function Scene() {
   const [matRef, material] = useResource()
   return (
     <>
-<<<<<<< HEAD
       <ShaderMaterial ref={matRef} />
       <Effects edgeDetection={0.4} />
-=======
-      <Material ref={matRef} />
-
-      <Effects />
-
-      {/* the spheres are not rendered unless the material is ready */}
->>>>>>> 7dc3475c1a8ae7e1449d7337c63859b549c708e5
       {material && <Instances material={material} />}
     </>
   )
