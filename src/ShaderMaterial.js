@@ -23,8 +23,12 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
     (loader) => loader.setPath('cube/'),
   )
 
+  useEffect(() => {
+    matRef.current.envMap = envMap
+  }, [envMap])
+
   // For some reason the envmap looks different if applied later-on
-  useEffect(() => void (matRef.current.envMap = envMap), [])
+  useEffect(() => void (matRef.current.envMap = envMap), [envMap])
 
   useFrame((state) => {
     matRef.current.time = state.clock.getElapsedTime()
