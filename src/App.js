@@ -97,9 +97,12 @@ export default function App() {
           <Effects />
         </Suspense>
       </Canvas>
-      <div className="three-gui-container">
-        <Controls />
-      </div>
+      {/* add ?ctrl to the url to view controls */}
+      {window.location.search.match('ctrl') && (
+        <div className="three-gui-container">
+          <Controls />
+        </div>
+      )}
     </>
   )
 }
