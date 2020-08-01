@@ -27,10 +27,13 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
 
   const { gl } = useThree()
   const envMapTexture = useTextureLoader('/envMap.jpg')
+
   const envMap = useMemo(() => {
     const generator = new THREE.PMREMGenerator(gl)
     generator.compileEquirectangularShader()
     const hdrCubeRenderTarget = generator.fromCubemap(envMapTexture)
+
+    // manually dispose of the objects we used in the conversion
     envMapTexture.dispose()
     generator.dispose()
     return hdrCubeRenderTarget.texture
