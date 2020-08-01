@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import React, { Suspense, useRef } from 'react'
 import { Canvas, useFrame, useResource } from 'react-three-fiber'
 import { Controls } from 'react-three-gui'
+import { Html } from 'drei'
 
 import Sphere from './Sphere'
 import ShaderMaterial from './ShaderMaterial'
@@ -88,9 +89,10 @@ function App() {
         colorManagement
         concurrent
         camera={{ position: [0, 0, 3] }}
+        gl={{ powerPreference: 'high-performance', alpha: false, antialias: false, stencil: false, depth: false }}
         onCreated={({ gl }) => gl.setClearColor('#020202', 1)}>
         <fog color="#161616" attach="fog" near={8} far={30} />
-        <Suspense fallback={null}>
+        <Suspense fallback={<Html center>loading...</Html>}>
           <Scene />
         </Suspense>
       </Canvas>

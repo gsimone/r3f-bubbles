@@ -3,16 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@craco/craco": "^5.6.4",
-    "@react-spring/three": "^9.0.0-rc.3",
-    "@testing-library/jest-dom": "^5.11.2",
-    "@testing-library/react": "^10.4.7",
-    "@testing-library/user-event": "^12.1.0",
-    "craco-raw-loader": "^1.0.1",
     "drei": "^0.0.67",
-    "git": "^0.1.5",
     "glsl-noise": "^0.0.0",
-    "glslify-loader": "^2.0.0",
     "merge-refs": "^1.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -22,15 +14,24 @@
     "three": "^0.119.1"
   },
   "devDependencies": {
+    "@react-spring/three": "^9.0.0-rc.3",
+    "@testing-library/jest-dom": "^5.11.2",
+    "@testing-library/react": "^10.4.7",
+    "@testing-library/user-event": "^12.1.0",
+    "glslify-loader": "^2.0.0",
+    "customize-cra": "^1.0.0",
+    "customize-cra-react-refresh": "^1.1.0",
     "husky": "^4.2.5",
     "prettier": "^2.0.5",
-    "pretty-quick": "^2.0.1"
+    "pretty-quick": "^2.0.1",
+    "raw-loader": "^4.0.1",
+    "react-app-rewired": "^2.1.6"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "eject": "craco eject"
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject"
   },
   "husky": {
     "hooks": {
