@@ -4,17 +4,6 @@ import { Canvas, useFrame, useResource } from 'react-three-fiber'
 import { EffectComposer, DepthOfField, Bloom, Noise, Vignette } from 'react-postprocessing'
 import { Html, Icosahedron, useTextureLoader, useCubeTextureLoader, MeshDistortMaterial } from 'drei'
 
-function Effects() {
-  return (
-    <EffectComposer>
-      <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} />
-      <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} opacity={3} />
-      <Noise opacity={0.02} />
-      <Vignette eskil={false} offset={0.1} darkness={1.1} />
-    </EffectComposer>
-  )
-}
-
 const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwardedRef) {
   const bumpMap = useTextureLoader('./bump.jpg')
   const envMap = useCubeTextureLoader(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'], { path: 'cube/' })
@@ -102,15 +91,18 @@ export default function App() {
   return (
     <Canvas
       colorManagement
-      concurrent
-      pixelRatio={1}
       camera={{ position: [0, 0, 3] }}
       gl={{ powerPreference: 'high-performance', alpha: false, antialias: false, stencil: false, depth: false }}>
       <color attach="background" args={['#050505']} />
       <fog color="#161616" attach="fog" near={8} far={30} />
       <Suspense fallback={<Html center>Loading.</Html>}>
         <Scene />
-        <Effects />
+        <EffectComposer>
+          <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} />
+          <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} opacity={3} />
+          <Noise opacity={0.02} />
+          <Vignette eskil={false} offset={0.1} darkness={1.1} />
+        </EffectComposer>
       </Suspense>
     </Canvas>
   )
