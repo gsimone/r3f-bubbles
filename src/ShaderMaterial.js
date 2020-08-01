@@ -1,8 +1,7 @@
 import * as THREE from 'three'
-import React, { useRef, useEffect, useMemo } from 'react'
-import { useLoader, useFrame, useThree } from 'react-three-fiber'
+import React, { useRef, useEffect } from 'react'
+import { useLoader, useFrame } from 'react-three-fiber'
 import { useControl } from 'react-three-gui'
-import { useTextureLoader } from 'drei'
 import mergeRefs from 'merge-refs'
 import './materials/DistortMaterial'
 
@@ -26,17 +25,9 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
   const distort = useControl('distort', { group: SHADER, type: 'number', value: 0.4, max: 1 })
 
   const bumpMap = useLoader(THREE.TextureLoader, './bump.jpg')
-
-  const { gl } = useThree()
-  const envMapTexture = useTextureLoader('/_DHQ.jpg')
-  const envMap = useMemo(() => {
-    const generator = new THREE.PMREMGenerator(gl)
-    generator.compileEquirectangularShader()
-    const hdrCubeRenderTarget = generator.fromCubemap(envMapTexture)
-    envMapTexture.dispose()
-    generator.dispose()
-    return hdrCubeRenderTarget.texture
-  }, [envMapTexture, gl])
+  const [envMap] = useLoader(THREE.CubeTextureLoader, [
+    ['px', 'nx', 'py', 'ny', 'pz', 'nz'].map((n) => `/cube/${n}.png`),
+  ])
 
   // For some reason the envmap looks different if applied later-on
   useEffect(() => void (matRef.current.envMap = envMap), [envMap])
