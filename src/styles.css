@@ -1,7 +1,6 @@
 * {
   box-sizing: border-box;
   outline: none;
-
 }
 
 html,
@@ -14,34 +13,12 @@ body,
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial,
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, ubuntu, roboto, noto,
+    segoe ui, arial, sans-serif;
+  color: white;
+  font-size: 14px;
 }
 
 #root:focus {
   outline: none;
-}
-
-.scrolly {
-  height: 300vh;
-}
-
-#material-test-canvas {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-}
-
-.three-gui-container {
-  opacity: 0.06;
-  transition: all .3s ease;
-}
-
-.three-gui-container:hover {
-  opacity: 1;
-}
-
-.loading {
-  color: white;
-  font-size: 12px;
 }

@@ -1,23 +1,48 @@
 import * as THREE from 'three'
 import React, { Suspense, useRef, useState } from 'react'
-
 import { Canvas, useFrame, useResource } from 'react-three-fiber'
-import { Controls } from 'react-three-gui'
-import { Html, Icosahedron } from 'drei'
+import { EffectComposer, DepthOfField, Bloom, Noise, Vignette } from 'react-postprocessing'
+import { Html, Icosahedron, useTextureLoader, useCubeTextureLoader, MeshDistortMaterial } from 'drei'
 
-import Effects from './Effects'
-import ShaderMaterial from './ShaderMaterial'
+function Effects() {
+  return (
+    <EffectComposer>
+      <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} />
+      <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} opacity={3} />
+      <Noise opacity={0.02} />
+      <Vignette eskil={false} offset={0.1} darkness={1.1} />
+    </EffectComposer>
+  )
+}
+
+const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwardedRef) {
+  const bumpMap = useTextureLoader('./bump.jpg')
+  const envMap = useCubeTextureLoader(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'], { path: 'cube/' })
+  return (
+    <MeshDistortMaterial
+      ref={forwardedRef}
+      color={'#010101'}
+      roughness={0.1}
+      metalness={1}
+      envMap={envMap}
+      bumpMap={bumpMap}
+      bumpScale={0.0032}
+      clearcoat={1}
+      clearcoatRoughness={1}
+      radius={1}
+      distort={0.4}
+    />
+  )
+})
 
 function MainSphere({ material }) {
   const main = useRef()
-
   // main sphere rotates following the mouse position
   useFrame(({ clock, mouse }) => {
     main.current.rotation.z = clock.getElapsedTime()
     main.current.rotation.y = THREE.MathUtils.lerp(main.current.rotation.y, mouse.x * Math.PI, 0.1)
     main.current.rotation.x = THREE.MathUtils.lerp(main.current.rotation.x, mouse.y * Math.PI, 0.1)
   })
-
   return <Icosahedron args={[1, 4]} ref={main} material={material} position={[0, 0, 0]} />
 }
 
@@ -35,7 +60,6 @@ function Instances({ material }) {
     [14, -2, -23],
     [8, 10, -20],
   ]
-
   // smaller spheres movement
   useFrame(() => {
     // animate each sphere in the array
@@ -47,7 +71,6 @@ function Instances({ material }) {
       el.rotation.z += 0.02
     })
   })
-
   return (
     <>
       <MainSphere material={material} />
@@ -70,7 +93,6 @@ function Scene() {
   return (
     <>
       <ShaderMaterial ref={matRef} />
-      {/* All the spheres are only rendered once the material is ready */}
       {material && <Instances material={material} />}
     </>
   )
@@ -78,31 +100,18 @@ function Scene() {
 
 export default function App() {
   return (
-    <>
-      <Canvas
-        colorManagement
-        concurrent
-        pixelRatio={1}
-        camera={{ position: [0, 0, 3] }}
-        gl={{ powerPreference: 'high-performance', alpha: false, antialias: false, stencil: false, depth: false }}>
-        <color attach="background" args={['#050505']} />
-        <fog color="#161616" attach="fog" near={8} far={30} />
-        <Suspense
-          fallback={
-            <Html center>
-              <div className="loading">Loading.</div>
-            </Html>
-          }>
-          <Scene />
-          <Effects />
-        </Suspense>
-      </Canvas>
-      {/* add ?ctrl to the url to view controls */}
-      {window.location.search.match('ctrl') && (
-        <div className="three-gui-container">
-          <Controls />
-        </div>
-      )}
-    </>
+    <Canvas
+      colorManagement
+      concurrent
+      pixelRatio={1}
+      camera={{ position: [0, 0, 3] }}
+      gl={{ powerPreference: 'high-performance', alpha: false, antialias: false, stencil: false, depth: false }}>
+      <color attach="background" args={['#050505']} />
+      <fog color="#161616" attach="fog" near={8} far={30} />
+      <Suspense fallback={<Html center>Loading.</Html>}>
+        <Scene />
+        <Effects />
+      </Suspense>
+    </Canvas>
   )
 }
