@@ -12,10 +12,8 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
   const matRef = useRef()
 
   // material settings
-  const color = useControl('color', { group: MATERIAL, type: 'color', value: '#010101' })
   const roughness = useControl('roughness', { group: MATERIAL, type: 'number', value: 0.1, max: 1 })
   const metalness = useControl('metalness', { group: MATERIAL, type: 'number', value: 1, max: 1 })
-  const reflectivity = useControl('reflectivity', { group: MATERIAL, type: 'number' })
   const clearcoat = useControl('clearcoat', { group: MATERIAL, type: 'number', value: 1, max: 1 })
   const clearcoatRoughness = useControl('clearcoat roughness', { group: MATERIAL, type: 'number', value: 1, max: 1 })
   const bumpScale = useControl('bump scale', { group: MATERIAL, type: 'number', value: 0.32, step: 0.1, max: 5 })
@@ -41,12 +39,11 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
   return (
     <distortMaterial
       ref={mergeRefs(forwardedRef, matRef)}
-      color={color}
+      color={'#010101'}
       roughness={roughness}
       metalness={metalness}
       bumpMap={bumpMap}
       bumpScale={bumpScale / 100}
-      reflectivity={reflectivity}
       clearcoat={clearcoat}
       clearcoatRoughness={clearcoatRoughness}
     />
