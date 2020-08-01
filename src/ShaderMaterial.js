@@ -26,7 +26,7 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
   const bumpMap = useLoader(THREE.TextureLoader, './bump.jpg')
 
   const { gl } = useThree()
-  const envMapTexture = useTextureLoader('/_DHQ.jpg')
+  const envMapTexture = useTextureLoader('/envMap.jpg')
   const envMap = useMemo(() => {
     const generator = new THREE.PMREMGenerator(gl)
     generator.compileEquirectangularShader()
