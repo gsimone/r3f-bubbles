@@ -8,7 +8,7 @@
     "merge-refs": "^1.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-postprocessing": "^1.0.0-beta36",
+    "react-postprocessing": "^1.0.0-beta37",
     "react-scripts": "3.4.1",
     "react-three-fiber": "^4.2.18",
     "react-three-gui": "^0.1.5",

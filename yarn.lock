@@ -9327,12 +9327,17 @@ react-merge-refs@^1.0.0:
   resolved "https://registry.yarnpkg.com/react-merge-refs/-/react-merge-refs-1.0.0.tgz#d6b297b9a62a266460a3c0d8b9d920731d8bbe63"
   integrity sha512-VkvWuCR5VoTjb+VYUcOjkFo66HDv1Hw8VjKcwQtWr2lJnT8g7epRRyfz8+Zkl2WhwqNeqR0gIe0XYrBa9ePeXg==
 
-react-postprocessing@^1.0.0-beta36:
-  version "1.0.0-beta36"
-  resolved "https://registry.yarnpkg.com/react-postprocessing/-/react-postprocessing-1.0.0-beta36.tgz#8aec3b88642b11e8cd899cfff43d2b224af843f9"
-  integrity sha512-Q8TRHwosa1x4y0Qe/hy5EvlKdSzUinmR24sVNkAmQk3UvKD2Y7aI8dwAshaD9nNR2lCFewd0zHK3QmfYEJIVBg==
+react-merge-refs@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-merge-refs/-/react-merge-refs-1.1.0.tgz#73d88b892c6c68cbb7a66e0800faa374f4c38b06"
+  integrity sha512-alTKsjEL0dKH/ru1Iyn7vliS2QRcBp9zZPGoWxUOvRGWPUYgjo+V01is7p04It6KhgrzhJGnIj9GgX8W4bZoCQ==
+
+react-postprocessing@^1.0.0-beta37:
+  version "1.0.0-beta37"
+  resolved "https://registry.yarnpkg.com/react-postprocessing/-/react-postprocessing-1.0.0-beta37.tgz#1664817d1e12263be5750c184b9ae89911a1ff6c"
+  integrity sha512-O7yKqXC3o1fdzpsonMpZ39tCmBVZ2jsBqS/bQFTU1ZcHa9SlnPyqKa+nIORYKP4g24+AFLpMhV8NT4UqrjdyIQ==
   dependencies:
-    react-merge-refs "^1.0.0"
+    react-merge-refs "^1.1.0"
 
 react-promise-suspense@^0.3.2:
   version "0.3.3"
