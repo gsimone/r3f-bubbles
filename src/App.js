@@ -1,28 +1,27 @@
 import * as THREE from 'three'
-import React, { Suspense, useRef } from 'react'
+import React, { Suspense, useRef, useState } from 'react'
 import { Canvas, useFrame, useResource } from 'react-three-fiber'
 import { Controls } from 'react-three-gui'
-import { Html } from 'drei'
-
-import Sphere from './Sphere'
+import { Html, Icosahedron } from 'drei'
 import ShaderMaterial from './ShaderMaterial'
-
 import Effects from './Effects'
 
-function MainBall({ material }) {
+function MainSphere({ material }) {
   const main = useRef()
 
   // main sphere rotates following the mouse position
   useFrame(({ clock, mouse }) => {
     main.current.rotation.z = clock.getElapsedTime()
-    main.current.rotation.y = THREE.MathUtils.lerp(main.current.rotation.y, mouse.x * 3, 0.1)
-    main.current.rotation.x = THREE.MathUtils.lerp(main.current.rotation.x, mouse.y * 2, 0.1)
+    main.current.rotation.y = THREE.MathUtils.lerp(main.current.rotation.y, mouse.x * Math.PI, 0.1)
+    main.current.rotation.x = THREE.MathUtils.lerp(main.current.rotation.x, mouse.y * Math.PI, 0.1)
   })
 
-  return <Sphere material={material} ref={main} position={[0, 0, 0]} />
+  return <Icosahedron args={[1, 4]} ref={main} material={material} position={[0, 0, 0]} />
 }
 
 function Instances({ material }) {
+  // we use this array ref to store the spheres after creating them
+  const [sphereRefs] = useState(() => [])
   // we use this array to initialize the background spheres
   const initialPositions = [
     [-4, 20, -12],
@@ -35,17 +34,12 @@ function Instances({ material }) {
     [8, 10, -20],
   ]
 
-  // we use this array ref to store the spheres after creating them
-  const smallerBalls = useRef([])
-
-  // smaller balls movement
+  // smaller spheres movement
   useFrame(() => {
     // animate each sphere in the array
-    smallerBalls.current.forEach((el, i) => {
-      let { y } = el.position
-      y += 0.02
-      if (y > 19) y = -18
-      el.position.y = y
+    sphereRefs.forEach((el) => {
+      el.position.y += 0.02
+      if (el.position.y > 19) el.position.y = -18
       el.rotation.x += 0.06
       el.rotation.y += 0.06
       el.rotation.z += 0.02
@@ -53,17 +47,18 @@ function Instances({ material }) {
   })
 
   return (
-    <group>
-      <MainBall material={material}></MainBall>
+    <>
+      <MainSphere material={material} />
       {initialPositions.map((pos, i) => (
-        <Sphere
+        <Icosahedron
+          args={[1, 4]}
           position={[pos[0], pos[1], pos[2]]}
           material={material}
           key={i}
-          ref={(ref) => (smallerBalls.current[i] = ref)}
+          ref={(ref) => (sphereRefs[i] = ref)}
         />
       ))}
-    </group>
+    </>
   )
 }
 
@@ -73,27 +68,25 @@ function Scene() {
   return (
     <>
       <ShaderMaterial ref={matRef} />
-
       {/* All the spheres are only rendered once the material is ready */}
       {material && <Instances material={material} />}
-
-      <Effects />
     </>
   )
 }
 
-function App() {
+export default function App() {
   return (
     <>
       <Canvas
         colorManagement
         concurrent
         camera={{ position: [0, 0, 3] }}
-        gl={{ powerPreference: 'high-performance', alpha: false, antialias: false, stencil: false, depth: false }}
-        onCreated={({ gl }) => gl.setClearColor('#020202', 1)}>
+        gl={{ powerPreference: 'high-performance', alpha: false, antialias: false, stencil: false, depth: false }}>
+        <color attach="background" args={['#050505']} />
         <fog color="#161616" attach="fog" near={8} far={30} />
         <Suspense fallback={<Html center>loading...</Html>}>
           <Scene />
+          <Effects />
         </Suspense>
       </Canvas>
       <div className="three-gui-container">
@@ -102,5 +95,3 @@ function App() {
     </>
   )
 }
-
-export default App

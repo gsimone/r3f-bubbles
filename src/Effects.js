@@ -32,7 +32,7 @@ export default function Effects({
   const luminanceThreshold = useControl('luminance Threshold', {
     group: 'Effects / blur',
     type: 'number',
-    value: 0.6,
+    value: 0,
     max: 1,
   })
   const luminanceSmoothing = useControl('luminance Smoothing', {
