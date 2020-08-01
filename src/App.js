@@ -83,7 +83,7 @@ export default function App() {
         concurrent
         pixelRatio={1}
         camera={{ position: [0, 0, 3] }}
-        gl={{ /*powerPreference: 'high-performance',*/ alpha: false, antialias: false, stencil: false, depth: false }}>
+        gl={{ powerPreference: 'high-performance', alpha: false, antialias: false, stencil: false, depth: false }}>
         <color attach="background" args={['#050505']} />
         <fog color="#161616" attach="fog" near={8} far={30} />
         <Suspense
@@ -95,19 +95,12 @@ export default function App() {
           <Scene />
           <EffectComposer smma>
             <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} />
-            <Bloom
-              blendFunction={BlendFunction.SCREEN}
-              kernelSize={KernelSize.VERY_LARGE}
-              luminanceThreshold={0}
-              luminanceSmoothing={0.9}
-              height={200}
-            />
-            <Noise blendFunction={BlendFunction.COLOR_DODGE} opacity={0.02} />
+            <Bloom kernelSize={KernelSize.VERY_LARGE} luminanceThreshold={0} luminanceSmoothing={0.9} height={200} />
+            <Noise opacity={0.02} />
             <Vignette eskil={false} offset={0.1} darkness={1.1} />
           </EffectComposer>
         </Suspense>
       </Canvas>
-
       <div className="three-gui-container">
         <Controls />
       </div>
