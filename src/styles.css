@@ -16,7 +16,6 @@ body,
 body {
   font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial,
     sans-serif;
-  color: white;
 }
 
 #root:focus {
@@ -40,4 +39,9 @@ body {
 
 .three-gui-container:hover {
   opacity: 1;
+}
+
+.loading {
+  color: white;
+  font-size: 12px;
 }

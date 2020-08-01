@@ -84,11 +84,17 @@ export default function App() {
         gl={{ powerPreference: 'high-performance', alpha: false, antialias: false, stencil: false, depth: false }}>
         <color attach="background" args={['#050505']} />
         <fog color="#161616" attach="fog" near={8} far={30} />
-        <Suspense fallback={<Html center>loading...</Html>}>
+        <Suspense
+          fallback={
+            <Html center>
+              <div className="loading">Loading.</div>
+            </Html>
+          }>
           <Scene />
           <Effects />
         </Suspense>
       </Canvas>
+
       <div className="three-gui-container">
         <Controls />
       </div>
