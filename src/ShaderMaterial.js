@@ -11,14 +11,12 @@ const SHADER = 'Shader'
 const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwardedRef) {
   const matRef = useRef()
 
-  // material settings
+  // controls
   const roughness = useControl('roughness', { group: MATERIAL, type: 'number', value: 0.1, max: 1 })
   const metalness = useControl('metalness', { group: MATERIAL, type: 'number', value: 1, max: 1 })
   const clearcoat = useControl('clearcoat', { group: MATERIAL, type: 'number', value: 1, max: 1 })
   const clearcoatRoughness = useControl('clearcoat roughness', { group: MATERIAL, type: 'number', value: 1, max: 1 })
   const bumpScale = useControl('bump scale', { group: MATERIAL, type: 'number', value: 0.32, step: 0.1, max: 5 })
-
-  // shader settings
   const radius = useControl('radius', { group: SHADER, type: 'number', value: 1, max: 1 })
   const distort = useControl('distort', { group: SHADER, type: 'number', value: 0.4, max: 1 })
 
