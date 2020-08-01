@@ -1,10 +1,11 @@
 import * as THREE from 'three'
 import React, { Suspense, useRef, useState } from 'react'
 import { Canvas, useFrame, useResource } from 'react-three-fiber'
+import { EffectComposer, DepthOfField, Bloom, Noise, Vignette } from 'react-postprocessing'
+import { BlendFunction, KernelSize } from 'postprocessing'
 import { Controls } from 'react-three-gui'
 import { Html, Icosahedron } from 'drei'
 import ShaderMaterial from './ShaderMaterial'
-import Effects from './Effects'
 
 function MainSphere({ material }) {
   const main = useRef()
@@ -80,13 +81,25 @@ export default function App() {
       <Canvas
         colorManagement
         concurrent
+        pixelRatio={1}
         camera={{ position: [0, 0, 3] }}
-        gl={{ powerPreference: 'high-performance', alpha: false, antialias: false, stencil: false, depth: false }}>
+        gl={{ /*powerPreference: 'high-performance',*/ alpha: false, antialias: false, stencil: false, depth: false }}>
         <color attach="background" args={['#050505']} />
         <fog color="#161616" attach="fog" near={8} far={30} />
         <Suspense fallback={<Html center>loading...</Html>}>
           <Scene />
-          <Effects />
+          <EffectComposer smma>
+            <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} />
+            <Bloom
+              blendFunction={BlendFunction.SCREEN}
+              kernelSize={KernelSize.VERY_LARGE}
+              luminanceThreshold={0}
+              luminanceSmoothing={0.9}
+              height={200}
+            />
+            <Noise blendFunction={BlendFunction.COLOR_DODGE} opacity={0.02} />
+            <Vignette eskil={false} offset={0.1} darkness={1.1} />
+          </EffectComposer>
         </Suspense>
       </Canvas>
       <div className="three-gui-container">
