@@ -1,4 +1,4 @@
-# Preview 👉👉 https://r3f-test-gg.netlify.app
+# Preview 👉👉 https://r3f-bubbles.netlify.app
 
 # Simple react-three-fiber starter project
 
