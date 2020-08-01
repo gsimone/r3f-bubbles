@@ -86,7 +86,12 @@ export default function App() {
         gl={{ /*powerPreference: 'high-performance',*/ alpha: false, antialias: false, stencil: false, depth: false }}>
         <color attach="background" args={['#050505']} />
         <fog color="#161616" attach="fog" near={8} far={30} />
-        <Suspense fallback={<Html center>loading...</Html>}>
+        <Suspense
+          fallback={
+            <Html center>
+              <div className="loading">Loading.</div>
+            </Html>
+          }>
           <Scene />
           <EffectComposer smma>
             <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} />
@@ -102,6 +107,7 @@ export default function App() {
           </EffectComposer>
         </Suspense>
       </Canvas>
+
       <div className="three-gui-container">
         <Controls />
       </div>
