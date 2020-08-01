@@ -15,7 +15,6 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
   // material settings
   const roughness = useControl('roughness', { group: MATERIAL, type: 'number', value: 0.1, max: 1 })
   const metalness = useControl('metalness', { group: MATERIAL, type: 'number', value: 1, max: 1 })
-  const reflectivity = useControl('reflectivity', { group: MATERIAL, type: 'number' })
   const clearcoat = useControl('clearcoat', { group: MATERIAL, type: 'number', value: 1, max: 1 })
   const clearcoatRoughness = useControl('clearcoat roughness', { group: MATERIAL, type: 'number', value: 1, max: 1 })
   const bumpScale = useControl('bump scale', { group: MATERIAL, type: 'number', value: 0.32, step: 0.1, max: 5 })
@@ -54,7 +53,6 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
       metalness={metalness}
       bumpMap={bumpMap}
       bumpScale={bumpScale / 100}
-      reflectivity={reflectivity}
       clearcoat={clearcoat}
       clearcoatRoughness={clearcoatRoughness}
     />
