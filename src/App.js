@@ -1,10 +1,11 @@
 import * as THREE from 'three'
 import React, { Suspense, useRef, useState } from 'react'
+
 import { Canvas, useFrame, useResource } from 'react-three-fiber'
-import { EffectComposer, DepthOfField, Bloom, Noise, Vignette } from 'react-postprocessing'
-import { KernelSize } from 'postprocessing'
 import { Controls } from 'react-three-gui'
 import { Html, Icosahedron } from 'drei'
+
+import Effects from './Effects'
 import ShaderMaterial from './ShaderMaterial'
 
 function MainSphere({ material }) {
@@ -93,12 +94,7 @@ export default function App() {
             </Html>
           }>
           <Scene />
-          <EffectComposer smma>
-            <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} />
-            <Bloom kernelSize={KernelSize.VERY_LARGE} luminanceThreshold={0} luminanceSmoothing={0.9} height={200} />
-            <Noise opacity={0.02} />
-            <Vignette eskil={false} offset={0.1} darkness={1.1} />
-          </EffectComposer>
+          <Effects />
         </Suspense>
       </Canvas>
       <div className="three-gui-container">
