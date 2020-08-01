@@ -1,12 +1,19 @@
 import * as THREE from 'three'
 import React, { useRef, useEffect } from 'react'
 import { useLoader, useFrame } from 'react-three-fiber'
+import { useTextureLoader } from 'drei'
 import { useControl } from 'react-three-gui'
 import mergeRefs from 'merge-refs'
 import './materials/DistortMaterial'
 
 const MATERIAL = 'Material'
 const SHADER = 'Shader'
+
+function useCubeTextureLoader(files, { path }) {
+  const [envMap] = useLoader(THREE.CubeTextureLoader, [files], (loader) => loader.setPath(path))
+
+  return envMap
+}
 
 const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwardedRef) {
   const matRef = useRef()
@@ -20,10 +27,8 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
   const radius = useControl('radius', { group: SHADER, type: 'number', value: 1, max: 1 })
   const distort = useControl('distort', { group: SHADER, type: 'number', value: 0.4, max: 1 })
 
-  const bumpMap = useLoader(THREE.TextureLoader, './bump.jpg')
-  const [envMap] = useLoader(THREE.CubeTextureLoader, [
-    ['px', 'nx', 'py', 'ny', 'pz', 'nz'].map((n) => `/cube/${n}.png`),
-  ])
+  const bumpMap = useTextureLoader('./bump.jpg')
+  const envMap = useCubeTextureLoader(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'], { path: 'cube/' })
 
   // For some reason the envmap looks different if applied later-on
   useEffect(() => void (matRef.current.envMap = envMap), [envMap])
