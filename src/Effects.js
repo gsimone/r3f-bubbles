@@ -3,7 +3,7 @@ import React from 'react'
 import { EffectComposer, DepthOfField, Bloom, Noise, Vignette } from 'react-postprocessing'
 import { BlendFunction, KernelSize } from 'postprocessing'
 
-function Effects() {
+export default function Effects() {
   return (
     <EffectComposer smma>
       <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} />
@@ -13,5 +13,3 @@ function Effects() {
     </EffectComposer>
   )
 }
-
-export default Effects
