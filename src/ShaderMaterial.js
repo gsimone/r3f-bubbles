@@ -1,19 +1,12 @@
 import * as THREE from 'three'
 import React, { useRef, useEffect } from 'react'
-import { useLoader, useFrame } from 'react-three-fiber'
-import { useTextureLoader } from 'drei'
+import { useFrame } from 'react-three-fiber'
+import { useTextureLoader, useCubeTextureLoader, MeshDistortMaterial } from 'drei'
 import { useControl } from 'react-three-gui'
 import mergeRefs from 'merge-refs'
-import './materials/DistortMaterial'
 
 const MATERIAL = 'Material'
 const SHADER = 'Shader'
-
-function useCubeTextureLoader(files, { path }) {
-  const [envMap] = useLoader(THREE.CubeTextureLoader, [files], (loader) => loader.setPath(path))
-
-  return envMap
-}
 
 const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwardedRef) {
   const matRef = useRef()
@@ -40,7 +33,7 @@ const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwarded
   })
 
   return (
-    <distortMaterial
+    <MeshDistortMaterial
       ref={mergeRefs(forwardedRef, matRef)}
       color={'#010101'}
       roughness={roughness}

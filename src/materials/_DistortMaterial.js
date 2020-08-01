@@ -1,5 +1,6 @@
 /**
- * This will be available as a drei component https://github.com/react-spring/drei/blob/master/src/MeshDistortMaterial.tsx
+ * This is the same code as drei's MeshDistortionMaterial, left here for fine-tuning purposes
+ *  https://github.com/react-spring/drei/blob/master/src/MeshDistortMaterial.tsx
  */
 import { MeshPhysicalMaterial } from 'three'
 import { extend } from 'react-three-fiber'

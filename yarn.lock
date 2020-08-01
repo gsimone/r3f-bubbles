@@ -4102,12 +4102,13 @@ dotenv@8.2.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
-drei@^0.0.67:
-  version "0.0.67"
-  resolved "https://registry.yarnpkg.com/drei/-/drei-0.0.67.tgz#42e80d690b95f36c691288fb55b2ec860b792d68"
-  integrity sha512-0M2rhjg12Z4Wvzr8QhUPbH6aGXiVhn5zKPJet1KQvgzfhecfyrYhT4qv/He2LlJyGdaJdAv+qFzjA8Gc/7hGOw==
+drei@^0.0.69:
+  version "0.0.69"
+  resolved "https://registry.yarnpkg.com/drei/-/drei-0.0.69.tgz#34443b1553360175a6bd113bec9ceeceb58041b9"
+  integrity sha512-DyHpYPGn2fEZTAUGyiDaxDLYO/h4gNS/BWlOfpuoZ47Z10Up5ftm5/SWGzb/9lZewXsMnJv4ikFMnxxI+SHcBA==
   dependencies:
     "@babel/runtime" "^7.10.5"
+    glsl-noise "^0.0.0"
     lodash.omit "^4.5.0"
     lodash.pick "^4.4.0"
     postprocessing "^6.16.0"

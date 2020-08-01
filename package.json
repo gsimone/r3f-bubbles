@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "drei": "^0.0.67",
+    "drei": "^0.0.69",
     "glsl-noise": "^0.0.0",
     "merge-refs": "^1.0.0",
     "react": "^16.13.1",
