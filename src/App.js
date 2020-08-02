@@ -4,23 +4,6 @@ import { Canvas, useFrame, useResource } from 'react-three-fiber'
 import { EffectComposer, DepthOfField, Bloom, Noise, Vignette } from 'react-postprocessing'
 import { Html, Icosahedron, useTextureLoader, useCubeTextureLoader, MeshDistortMaterial } from 'drei'
 
-const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwardedRef) {
-  return (
-    <MeshDistortMaterial
-      ref={forwardedRef}
-      color={'#010101'}
-      roughness={0.1}
-      metalness={1}
-      bumpScale={0.005}
-      clearcoat={1}
-      clearcoatRoughness={1}
-      radius={1}
-      distort={0.4}
-      {...props}
-    />
-  )
-})
-
 function MainSphere({ material }) {
   const main = useRef()
   // main sphere rotates following the mouse position
@@ -80,7 +63,19 @@ function Scene() {
   const [matRef, material] = useResource()
   return (
     <>
-      <ShaderMaterial ref={matRef} envMap={envMap} bumpMap={bumpMap} />
+      <MeshDistortMaterial
+        ref={matRef}
+        color={'#010101'}
+        roughness={0.1}
+        metalness={1}
+        bumpScale={0.005}
+        clearcoat={1}
+        clearcoatRoughness={1}
+        radius={1}
+        distort={0.4}
+        envMap={envMap}
+        bumpMap={bumpMap}
+      />
       {material && <Instances material={material} />}
     </>
   )
