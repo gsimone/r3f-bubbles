@@ -5,21 +5,18 @@ import { EffectComposer, DepthOfField, Bloom, Noise, Vignette } from 'react-post
 import { Html, Icosahedron, useTextureLoader, useCubeTextureLoader, MeshDistortMaterial } from 'drei'
 
 const ShaderMaterial = React.forwardRef(function ShaderMaterial(props, forwardedRef) {
-  const bumpMap = useTextureLoader('./bump.jpg')
-  const envMap = useCubeTextureLoader(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'], { path: 'cube/' })
   return (
     <MeshDistortMaterial
       ref={forwardedRef}
       color={'#010101'}
       roughness={0.1}
       metalness={1}
-      envMap={envMap}
-      bumpMap={bumpMap}
-      bumpScale={0.0032}
+      bumpScale={0.005}
       clearcoat={1}
       clearcoatRoughness={1}
       radius={1}
       distort={0.4}
+      {...props}
     />
   )
 })
@@ -41,10 +38,10 @@ function Instances({ material }) {
   // we use this array to initialize the background spheres
   const initialPositions = [
     [-4, 20, -12],
-    [-10, 12, -8],
+    [-10, 12, -4],
     [-11, -12, -23],
     [-16, -6, -10],
-    [12, -2, -6],
+    [12, -2, -3],
     [13, 4, -12],
     [14, -2, -23],
     [8, 10, -20],
@@ -77,11 +74,13 @@ function Instances({ material }) {
 }
 
 function Scene() {
+  const bumpMap = useTextureLoader('/bump.jpg')
+  const envMap = useCubeTextureLoader(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'], { path: '/cube/' })
   // We use `useResource` to be able to delay rendering the spheres until the material is ready
   const [matRef, material] = useResource()
   return (
     <>
-      <ShaderMaterial ref={matRef} />
+      <ShaderMaterial ref={matRef} envMap={envMap} bumpMap={bumpMap} />
       {material && <Instances material={material} />}
     </>
   )
@@ -100,7 +99,7 @@ export default function App() {
         <EffectComposer>
           <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} />
           <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} opacity={3} />
-          <Noise opacity={0.02} />
+          <Noise opacity={0.025} />
           <Vignette eskil={false} offset={0.1} darkness={1.1} />
         </EffectComposer>
       </Suspense>
