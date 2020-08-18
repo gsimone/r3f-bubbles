@@ -8,15 +8,15 @@
     "merge-refs": "^1.0.0",
     "react": "^17.0.0-rc.0",
     "react-dom": "^17.0.0-rc.0",
-    "react-postprocessing": "^1.1.4",
-    "react-scripts": "3.4.1",
+    "react-postprocessing": "^1.1.6",
+    "react-scripts": "3.4.3",
     "react-three-fiber": "^5.0.0-beta.11",
     "react-three-gui": "^0.1.5",
     "three": "^0.119.1"
   },
   "devDependencies": {
     "@react-spring/three": "^9.0.0-rc.3",
-    "@testing-library/jest-dom": "^5.11.2",
+    "@testing-library/jest-dom": "^5.11.3",
     "@testing-library/react": "^10.4.8",
     "@testing-library/user-event": "^12.1.1",
     "customize-cra": "^1.0.0",
