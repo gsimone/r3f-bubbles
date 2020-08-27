@@ -84,7 +84,6 @@ function Scene() {
 export default function App() {
   return (
     <Canvas
-      colorManagement
       camera={{ position: [0, 0, 3] }}
       gl={{ powerPreference: 'high-performance', alpha: false, antialias: false, stencil: false, depth: false }}>
       <color attach="background" args={['#050505']} />
@@ -93,6 +92,9 @@ export default function App() {
         <Scene />
         <EffectComposer>
           <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} />
+          <Bloom luminanceSmoothing={0.1} luminanceThreshold={0.2} />
+          <Noise opacity={0.03} />
+          <Vignette darkness={0.5} />
         </EffectComposer>
       </Suspense>
     </Canvas>
